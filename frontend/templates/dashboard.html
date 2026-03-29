@@ -1,18 +1,15 @@
 {% extends 'base.html' %}
-
 {% block title %}Dashboard{% endblock %}
-
 {% block content %}
 <div class="cf-page-header">
   <div>
     <span class="cf-label">Welcome back, {{ request.user.first_name }}</span>
     <h2>Dashboard</h2>
   </div>
-  <div class="d-flex gap-3">
-    <button class="btn btn-cf-secondary">
-      <span class="material-symbols-outlined me-1" style="font-size:18px;">download</span>
-      Export PDF
-    </button>
+  <div class="d-flex gap-2">
+    <a href="{% url 'export_analytics_pdf' %}" class="btn btn-cf-secondary">
+      <span class="material-symbols-outlined me-1" style="font-size:18px;">download</span> Export PDF
+    </a>
   </div>
 </div>
 
@@ -21,92 +18,97 @@
   <div class="col-lg-3 col-md-6">
     <div class="cf-summary-card">
       <div class="d-flex justify-content-between align-items-start">
-        <div>
-          <p class="cf-card-label">Total Events</p>
-          <h3 class="cf-card-value">0</h3>
-        </div>
-        <div style="width:44px;height:44px;background:var(--cf-primary-container);border-radius:12px;display:flex;align-items:center;justify-content:center;">
-          <span class="material-symbols-outlined" style="color:var(--cf-primary);font-variation-settings:'FILL' 1;">event</span>
-        </div>
+        <div><p class="cf-card-label">Total Events</p><h3 class="cf-card-value">{{ total_events }}</h3></div>
+        <div style="width:44px;height:44px;background:var(--cf-primary-container);border-radius:12px;display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="color:var(--cf-primary);font-variation-settings:'FILL' 1;">event</span></div>
       </div>
     </div>
   </div>
   <div class="col-lg-3 col-md-6">
     <div class="cf-summary-card">
       <div class="d-flex justify-content-between align-items-start">
-        <div>
-          <p class="cf-card-label">Upcoming</p>
-          <h3 class="cf-card-value">0</h3>
-        </div>
-        <div style="width:44px;height:44px;background:var(--cf-secondary-container);border-radius:12px;display:flex;align-items:center;justify-content:center;">
-          <span class="material-symbols-outlined" style="color:var(--cf-secondary);font-variation-settings:'FILL' 1;">schedule</span>
-        </div>
+        <div><p class="cf-card-label">Upcoming</p><h3 class="cf-card-value">{{ upcoming }}</h3></div>
+        <div style="width:44px;height:44px;background:var(--cf-secondary-container);border-radius:12px;display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="color:var(--cf-secondary);font-variation-settings:'FILL' 1;">schedule</span></div>
       </div>
     </div>
   </div>
   <div class="col-lg-3 col-md-6">
     <div class="cf-summary-card">
       <div class="d-flex justify-content-between align-items-start">
-        <div>
-          <p class="cf-card-label">Budget Used</p>
-          <h3 class="cf-card-value">₹0</h3>
-        </div>
-        <div style="width:44px;height:44px;background:#e1f6ee;border-radius:12px;display:flex;align-items:center;justify-content:center;">
-          <span class="material-symbols-outlined" style="color:var(--cf-tertiary);font-variation-settings:'FILL' 1;">payments</span>
-        </div>
+        <div><p class="cf-card-label">Total Spent</p><h3 class="cf-card-value">₹{{ total_spent|floatformat:0 }}</h3></div>
+        <div style="width:44px;height:44px;background:#e1f6ee;border-radius:12px;display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="color:var(--cf-tertiary);font-variation-settings:'FILL' 1;">payments</span></div>
       </div>
     </div>
   </div>
   <div class="col-lg-3 col-md-6">
     <div class="cf-summary-card">
       <div class="d-flex justify-content-between align-items-start">
-        <div>
-          <p class="cf-card-label">Open Risks</p>
-          <h3 class="cf-card-value">0</h3>
-        </div>
-        <div style="width:44px;height:44px;background:#fce8ec;border-radius:12px;display:flex;align-items:center;justify-content:center;">
-          <span class="material-symbols-outlined" style="color:var(--cf-error);font-variation-settings:'FILL' 1;">warning</span>
-        </div>
+        <div><p class="cf-card-label">Open Risks</p><h3 class="cf-card-value" style="color:var(--cf-error);">{{ open_risks }}</h3></div>
+        <div style="width:44px;height:44px;background:#fce8ec;border-radius:12px;display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="color:var(--cf-error);font-variation-settings:'FILL' 1;">warning</span></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Charts Placeholder -->
+<!-- Charts -->
 <div class="row g-4 mb-4">
   <div class="col-lg-6">
-    <div class="cf-card p-4">
-      <h3 class="headline" style="font-size:1rem;margin-bottom:1rem;">Event Status Distribution</h3>
-      <div style="height:280px;display:flex;align-items:center;justify-content:center;color:var(--cf-outline);">
-        <div class="text-center">
-          <span class="material-symbols-outlined" style="font-size:48px;opacity:0.3;">pie_chart</span>
-          <p class="mt-2 mb-0" style="font-size:0.875rem;">Charts will appear when events are added</p>
-        </div>
-      </div>
+    <div class="cf-card p-4"><h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">Event Status Distribution</h5>
+      <canvas id="dashStatusChart" height="260"></canvas>
     </div>
   </div>
   <div class="col-lg-6">
-    <div class="cf-card p-4">
-      <h3 class="headline" style="font-size:1rem;margin-bottom:1rem;">Budget Overview</h3>
-      <div style="height:280px;display:flex;align-items:center;justify-content:center;color:var(--cf-outline);">
-        <div class="text-center">
-          <span class="material-symbols-outlined" style="font-size:48px;opacity:0.3;">bar_chart</span>
-          <p class="mt-2 mb-0" style="font-size:0.875rem;">Budget data will populate with events</p>
-        </div>
-      </div>
+    <div class="cf-card p-4"><h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">Budget: Estimated vs Spent</h5>
+      <canvas id="dashBudgetChart" height="260"></canvas>
     </div>
   </div>
 </div>
 
-<!-- Recent Events Placeholder -->
+<!-- Recent Events -->
 <div class="cf-card p-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="headline" style="font-size:1rem;margin:0;">Recent Events</h3>
-    <a href="#" style="color:var(--cf-primary);font-size:0.8rem;font-weight:700;text-decoration:none;">View All →</a>
+    <h5 class="headline" style="font-size:0.9rem;margin:0;">Recent Events</h5>
+    <a href="{% url 'event_list' %}" style="color:var(--cf-primary);font-size:0.8rem;font-weight:700;text-decoration:none;">View All →</a>
   </div>
-  <div style="padding:3rem 0;text-align:center;color:var(--cf-outline);">
-    <span class="material-symbols-outlined" style="font-size:48px;opacity:0.3;">event_note</span>
-    <p class="mt-2 mb-0" style="font-size:0.875rem;">No events yet. Create your first event to get started!</p>
+  {% if recent_events %}
+  <div class="d-flex flex-column gap-2">
+    {% for event in recent_events %}
+    <a href="{% url 'event_detail' event.id %}" class="cf-info-row text-decoration-none" style="color:inherit;">
+      <div class="d-flex align-items-center gap-3">
+        <span class="material-symbols-outlined" style="color:var(--cf-primary);">event</span>
+        <div>
+          <div style="font-weight:600;">{{ event.name }}</div>
+          <small style="color:var(--cf-outline);">{{ event.date|date:"M d, Y" }} · {{ event.get_category_display }}</small>
+        </div>
+      </div>
+      <span class="cf-badge {% if event.status == 'completed' %}cf-badge-student{% elif event.status == 'cancelled' %}cf-badge-admin{% else %}cf-badge-faculty{% endif %}" style="{% if event.status == 'planned' %}background:var(--cf-primary-container);color:var(--cf-primary);{% elif event.status == 'cancelled' %}background:#fce8ec;color:var(--cf-error);{% endif %}">{{ event.get_status_display }}</span>
+    </a>
+    {% endfor %}
   </div>
+  {% else %}
+  <div class="text-center py-4" style="color:var(--cf-outline);">
+    <span class="material-symbols-outlined d-block mb-2" style="font-size:48px;opacity:0.3;">event_note</span>
+    <p class="mb-0" style="font-size:0.875rem;">No events yet. {% if request.user.userprofile.role != 'student' %}<a href="{% url 'event_create' %}" style="color:var(--cf-primary);font-weight:600;">Create your first event →</a>{% endif %}</p>
+  </div>
+  {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const statusData={{ status_data|safe }};
+const statusLabels={'planned':'Planned','in_progress':'In Progress','completed':'Completed','cancelled':'Cancelled'};
+const statusColors=['#5257a8','#4a4bd7','#006d4a','#ac3149'];
+const sLabels=Object.keys(statusData).map(k=>statusLabels[k]||k);
+const sValues=Object.values(statusData);
+if(sLabels.length){
+  new Chart(document.getElementById('dashStatusChart'),{type:'doughnut',data:{labels:sLabels,datasets:[{data:sValues,backgroundColor:statusColors.slice(0,sLabels.length),borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{padding:16,usePointStyle:true}}}}});
+}else{document.getElementById('dashStatusChart').parentElement.innerHTML+='<p class="text-center" style="color:var(--cf-outline);font-size:0.85rem;">No data yet</p>';}
+
+const bLabels={{ budget_chart_labels|safe }};
+const bEst={{ budget_chart_estimated|safe }};
+const bSpent={{ budget_chart_spent|safe }};
+if(bLabels.length){
+  new Chart(document.getElementById('dashBudgetChart'),{type:'bar',data:{labels:bLabels,datasets:[{label:'Estimated',data:bEst,backgroundColor:'#b8bcff',borderRadius:8},{label:'Spent',data:bSpent,backgroundColor:'#5257a8',borderRadius:8}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{padding:16,usePointStyle:true}}},scales:{y:{beginAtZero:true},x:{grid:{display:false}}}}});
+}else{document.getElementById('dashBudgetChart').parentElement.innerHTML+='<p class="text-center" style="color:var(--cf-outline);font-size:0.85rem;">No budget data yet</p>';}
+</script>
 {% endblock %}

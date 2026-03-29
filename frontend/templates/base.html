@@ -43,20 +43,20 @@
       <a href="{% url 'dashboard' %}" class="cf-nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
         <span class="material-symbols-outlined">grid_view</span> Overview
       </a>
-      <a href="{% url 'dashboard' %}" class="cf-nav-link {% if request.resolver_match.url_name == 'event_list' %}active{% endif %}">
+      <a href="{% url 'event_list' %}" class="cf-nav-link {% if 'event' in request.resolver_match.url_name %}active{% endif %}">
         <span class="material-symbols-outlined">event</span> Events
       </a>
-      <a href="{% url 'dashboard' %}" class="cf-nav-link {% if request.resolver_match.url_name == 'budget_overview' %}active{% endif %}">
+      <a href="{% url 'budget_overview' %}" class="cf-nav-link {% if 'budget' in request.resolver_match.url_name %}active{% endif %}">
         <span class="material-symbols-outlined">payments</span> Budget
       </a>
-      <a href="{% url 'dashboard' %}" class="cf-nav-link {% if request.resolver_match.url_name == 'risk_list' %}active{% endif %}">
+      <a href="{% url 'risk_list' %}" class="cf-nav-link {% if 'risk' in request.resolver_match.url_name %}active{% endif %}">
         <span class="material-symbols-outlined">warning</span> Risks
       </a>
-      <a href="{% url 'dashboard' %}" class="cf-nav-link {% if request.resolver_match.url_name == 'analytics' %}active{% endif %}">
+      <a href="{% url 'analytics' %}" class="cf-nav-link {% if 'analytics' in request.resolver_match.url_name %}active{% endif %}">
         <span class="material-symbols-outlined">bar_chart</span> Analytics
       </a>
       {% if request.user.userprofile.role == 'admin' or request.user.userprofile.role == 'faculty' %}
-      <a href="{% url 'dashboard' %}" class="cf-nav-link {% if request.resolver_match.url_name == 'ai_features' %}active{% endif %}">
+      <a href="{% url 'ai_dashboard' %}" class="cf-nav-link {% if 'ai' in request.resolver_match.url_name %}active{% endif %}">
         <span class="material-symbols-outlined">auto_awesome</span> AI Generator
       </a>
       {% endif %}

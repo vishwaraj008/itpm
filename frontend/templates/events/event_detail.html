@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block title %}{{ event.name }}{% endblock %}
+{% block content %}
+<div class="cf-page-header">
+  <div>
+    <span class="cf-label">Event Details</span>
+    <h2>{{ event.name }}</h2>
+  </div>
+  <div class="d-flex gap-2">
+    {% if request.user.userprofile.role != 'student' %}
+    <a href="{% url 'assign_resource' event.id %}" class="btn btn-cf-secondary">
+      <span class="material-symbols-outlined me-1" style="font-size:18px;">add_circle</span> Assign Resource
+    </a>
+    <a href="{% url 'event_edit' event.id %}" class="btn btn-cf-primary">
+      <span class="material-symbols-outlined me-1" style="font-size:18px;">edit</span> Edit
+    </a>
+    {% endif %}
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Event Info -->
+  <div class="col-lg-8">
+    <div class="cf-card p-4 mb-4">
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="cf-info-row flex-column align-items-start gap-1">
+            <span class="cf-info-label">Status</span>
+            <span class="cf-badge {% if event.status == 'completed' %}cf-badge-student{% elif event.status == 'cancelled' %}cf-badge-admin{% else %}cf-badge-faculty{% endif %}" style="{% if event.status == 'planned' %}background:var(--cf-primary-container);color:var(--cf-primary);{% elif event.status == 'cancelled' %}background:#fce8ec;color:var(--cf-error);{% endif %}">{{ event.get_status_display }}</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="cf-info-row flex-column align-items-start gap-1">
+            <span class="cf-info-label">Category</span>
+            <span style="font-weight:600;">{{ event.get_category_display }}</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="cf-info-row flex-column align-items-start gap-1">
+            <span class="cf-info-label">Date</span>
+            <span style="font-weight:600;">{{ event.date|date:"M d, Y" }}</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="cf-info-row flex-column align-items-start gap-1">
+            <span class="cf-info-label">Time</span>
+            <span style="font-weight:600;">{{ event.start_time|time:"h:i A" }} – {{ event.end_time|time:"h:i A" }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-4"><div class="cf-info-row flex-column align-items-start gap-1"><span class="cf-info-label">Venue</span><span style="font-weight:600;">{{ event.venue }}</span></div></div>
+        <div class="col-md-4"><div class="cf-info-row flex-column align-items-start gap-1"><span class="cf-info-label">Organizer</span><span style="font-weight:600;">{{ event.organizer.first_name }} {{ event.organizer.last_name }}</span></div></div>
+        <div class="col-md-4"><div class="cf-info-row flex-column align-items-start gap-1"><span class="cf-info-label">Expected Attendees</span><span style="font-weight:600;">{{ event.expected_attendees }}</span></div></div>
+      </div>
+      {% if event.description %}
+      <h5 class="headline" style="font-size:0.9rem;">Description</h5>
+      <p style="color:var(--cf-on-surface-variant);line-height:1.7;">{{ event.description|linebreaksbr }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Resources -->
+    <div class="cf-card p-4 mb-4">
+      <h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">
+        <span class="material-symbols-outlined me-1" style="font-size:20px;">devices</span> Assigned Resources
+      </h5>
+      {% if resources %}
+      <div class="d-flex flex-column gap-2">
+        {% for er in resources %}
+        <div class="cf-info-row">
+          <div class="d-flex align-items-center gap-3">
+            <span class="material-symbols-outlined" style="color:var(--cf-primary);">{% if er.resource.resource_type == 'venue' %}location_on{% else %}build{% endif %}</span>
+            <div>
+              <div style="font-weight:600;">{{ er.resource.name }}</div>
+              <small style="color:var(--cf-outline);">{{ er.get_role_display }} · Qty: {{ er.quantity }}</small>
+            </div>
+          </div>
+          <span class="cf-badge cf-badge-student">{{ er.resource.get_resource_type_display }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="text-center py-3" style="color:var(--cf-outline);">No resources assigned yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="col-lg-4">
+    <!-- Budget Summary -->
+    <div class="cf-card p-4 mb-4">
+      <h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">
+        <span class="material-symbols-outlined me-1" style="font-size:20px;">payments</span> Budget
+      </h5>
+      <div class="d-flex flex-column gap-3">
+        <div class="cf-info-row flex-column align-items-start gap-1">
+          <span class="cf-info-label">Estimated</span>
+          <span style="font-weight:700;font-size:1.25rem;">₹{{ event.estimated_budget|floatformat:0 }}</span>
+        </div>
+        <div class="cf-info-row flex-column align-items-start gap-1">
+          <span class="cf-info-label">Spent</span>
+          <span style="font-weight:700;font-size:1.25rem;color:{% if event.is_overspent %}var(--cf-error){% else %}var(--cf-tertiary){% endif %};">₹{{ event.total_spent|floatformat:0 }}</span>
+        </div>
+        <div class="cf-info-row flex-column align-items-start gap-1">
+          <span class="cf-info-label">Remaining</span>
+          <span style="font-weight:700;font-size:1.25rem;">₹{{ event.remaining_budget|floatformat:0 }}</span>
+        </div>
+      </div>
+      {% if request.user.userprofile.role != 'student' %}
+      <a href="{% url 'budget_create' event.id %}" class="btn btn-cf-secondary w-100 mt-3">
+        <span class="material-symbols-outlined me-1" style="font-size:18px;">add</span> Add Expense
+      </a>
+      {% endif %}
+    </div>
+
+    <!-- Risks Summary -->
+    <div class="cf-card p-4 mb-4">
+      <h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">
+        <span class="material-symbols-outlined me-1" style="font-size:20px;">warning</span> Risks
+      </h5>
+      <div class="cf-info-row">
+        <span style="font-weight:600;">Open Risks</span>
+        <span class="cf-badge" style="background:#fce8ec;color:var(--cf-error);">{{ event.open_risks_count }}</span>
+      </div>
+      {% if request.user.userprofile.role != 'student' %}
+      <a href="{% url 'risk_create' event.id %}" class="btn btn-cf-secondary w-100 mt-3">
+        <span class="material-symbols-outlined me-1" style="font-size:18px;">add</span> Add Risk
+      </a>
+      {% endif %}
+    </div>
+
+    {% if request.user.userprofile.role != 'student' %}
+    <div class="cf-card p-4">
+      <a href="{% url 'event_delete' event.id %}" class="btn btn-cf-secondary w-100" style="color:var(--cf-error);">
+        <span class="material-symbols-outlined me-1" style="font-size:18px;">delete</span> Delete Event
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

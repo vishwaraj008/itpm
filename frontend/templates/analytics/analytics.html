@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}Analytics{% endblock %}
+{% block content %}
+<div class="cf-page-header"><div><span class="cf-label">Insights</span><h2>Analytics Dashboard</h2></div></div>
+<div class="row g-4 mb-4">
+  <div class="col-lg-3 col-md-6"><div class="cf-summary-card"><p class="cf-card-label">Total Events</p><h3 class="cf-card-value">{{ total_events }}</h3></div></div>
+  <div class="col-lg-3 col-md-6"><div class="cf-summary-card"><p class="cf-card-label">Upcoming</p><h3 class="cf-card-value">{{ upcoming_events }}</h3></div></div>
+  <div class="col-lg-3 col-md-6"><div class="cf-summary-card"><p class="cf-card-label">Total Spent</p><h3 class="cf-card-value">₹{{ total_budget|floatformat:0 }}</h3></div></div>
+  <div class="col-lg-3 col-md-6"><div class="cf-summary-card"><p class="cf-card-label">Open Risks</p><h3 class="cf-card-value" style="color:var(--cf-error);">{{ open_risks }}</h3></div></div>
+</div>
+<div class="row g-4 mb-4">
+  <div class="col-lg-6">
+    <div class="cf-card p-4"><h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">Event Status Distribution</h5>
+      <canvas id="statusChart" height="260"></canvas>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="cf-card p-4"><h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">Events by Category</h5>
+      <canvas id="categoryChart" height="260"></canvas>
+    </div>
+  </div>
+</div>
+<div class="row g-4 mb-4">
+  <div class="col-lg-6">
+    <div class="cf-card p-4"><h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">Budget by Category</h5>
+      <canvas id="budgetChart" height="260"></canvas>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="cf-card p-4"><h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">Monthly Event Trend</h5>
+      <canvas id="monthlyChart" height="260"></canvas>
+    </div>
+  </div>
+</div>
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="cf-card p-4"><h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">Risk Severity (Open)</h5>
+      <canvas id="riskChart" height="260"></canvas>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+const palette = ['#5257a8','#4a4bd7','#006d4a','#ac3149','#e6a817','#d4620e','#7c3aed','#0891b2'];
+function chartColors(n){return palette.slice(0,n);}
+function makeChart(id,type,labels,data,colors){
+  const ctx=document.getElementById(id);
+  if(!labels.length){ctx.parentElement.innerHTML+='<p class="text-center mt-3" style="color:var(--cf-outline);font-size:0.85rem;">No data yet</p>';return;}
+  new Chart(ctx,{type:type,data:{labels:labels,datasets:[{data:data,backgroundColor:colors||chartColors(labels.length),borderWidth:0,borderRadius:type==='bar'?8:0,tension:0.4,fill:type==='line',pointBackgroundColor:'#5257a8'}]},options:{responsive:true,plugins:{legend:{display:type==='pie'||type==='doughnut',position:'bottom',labels:{padding:16,usePointStyle:true}}},scales:type==='pie'||type==='doughnut'?{}:{y:{beginAtZero:true,ticks:{stepSize:1}},x:{grid:{display:false}}}}});
+}
+const statusData={{ status_data|safe }};
+const categoryData={{ category_data|safe }};
+const budgetData={{ budget_by_cat|safe }};
+const monthlyLabels={{ monthly_labels|safe }};
+const monthlyValues={{ monthly_values|safe }};
+const riskData={{ risk_severity|safe }};
+const statusLabels={'planned':'Planned','in_progress':'In Progress','completed':'Completed','cancelled':'Cancelled'};
+const catLabels={'academic':'Academic','cultural':'Cultural','sports':'Sports','technical':'Technical','workshop':'Workshop','seminar':'Seminar','other':'Other'};
+const budgetLabels={'venue':'Venue','catering':'Catering','marketing':'Marketing','equipment':'Equipment','decoration':'Decoration','speaker':'Speaker','transport':'Transport','misc':'Misc'};
+const sevLabels={'low':'Low','medium':'Medium','high':'High','critical':'Critical'};
+const sevColors={'low':'#006d4a','medium':'#e6a817','high':'#d4620e','critical':'#ac3149'};
+makeChart('statusChart','doughnut',Object.keys(statusData).map(k=>statusLabels[k]||k),Object.values(statusData));
+makeChart('categoryChart','bar',Object.keys(categoryData).map(k=>catLabels[k]||k),Object.values(categoryData));
+makeChart('budgetChart','pie',Object.keys(budgetData).map(k=>budgetLabels[k]||k),Object.values(budgetData));
+makeChart('monthlyChart','line',monthlyLabels,monthlyValues,['rgba(82,87,168,0.2)']);
+makeChart('riskChart','bar',Object.keys(riskData).map(k=>sevLabels[k]||k),Object.values(riskData),Object.keys(riskData).map(k=>sevColors[k]||'#757c7f'));
+</script>
+{% endblock %}

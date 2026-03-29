@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}AI Event Generator{% endblock %}
+{% block content %}
+<div class="cf-page-header"><div><span class="cf-label">AI-Powered</span><h2>Event Generator</h2></div></div>
+<div class="row g-4">
+  <!-- Smart Schedule -->
+  <div class="col-lg-6">
+    <div class="cf-card p-4">
+      <h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">
+        <span class="material-symbols-outlined me-1" style="font-size:20px;color:var(--cf-secondary);">schedule</span> Smart Scheduling
+      </h5>
+      <div class="mb-3"><label class="cf-info-label mb-2">Event Name</label><input type="text" id="sched-name" class="form-control cf-form-control" placeholder="e.g. Annual Tech Fest"/></div>
+      <div class="row mb-3"><div class="col-6"><label class="cf-info-label mb-2">Category</label><select id="sched-category" class="form-select cf-form-select"><option value="academic">Academic</option><option value="cultural">Cultural</option><option value="sports">Sports</option><option value="technical">Technical</option><option value="workshop">Workshop</option></select></div><div class="col-6"><label class="cf-info-label mb-2">Duration</label><input type="text" id="sched-duration" class="form-control cf-form-control" value="2 hours"/></div></div>
+      <button class="btn btn-cf-primary" onclick="smartSchedule()"><span class="material-symbols-outlined me-1" style="font-size:18px;">auto_awesome</span> Get Suggestions</button>
+      <div id="sched-result" class="mt-3 p-3" style="display:none;background:var(--cf-surface-container);border-radius:12px;white-space:pre-wrap;font-size:0.875rem;line-height:1.8;"></div>
+    </div>
+  </div>
+  <!-- Budget Estimator -->
+  <div class="col-lg-6">
+    <div class="cf-card p-4">
+      <h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">
+        <span class="material-symbols-outlined me-1" style="font-size:20px;color:var(--cf-tertiary);">payments</span> Budget Estimator
+      </h5>
+      <div class="mb-3"><label class="cf-info-label mb-2">Event Name</label><input type="text" id="budget-name" class="form-control cf-form-control" placeholder="e.g. Cultural Night"/></div>
+      <div class="row mb-3"><div class="col-6"><label class="cf-info-label mb-2">Category</label><select id="budget-category" class="form-select cf-form-select"><option value="academic">Academic</option><option value="cultural">Cultural</option><option value="sports">Sports</option><option value="technical">Technical</option></select></div><div class="col-6"><label class="cf-info-label mb-2">Attendees</label><input type="number" id="budget-attendees" class="form-control cf-form-control" value="100"/></div></div>
+      <button class="btn btn-cf-primary" onclick="estimateBudget()"><span class="material-symbols-outlined me-1" style="font-size:18px;">auto_awesome</span> Estimate</button>
+      <div id="budget-result" class="mt-3 p-3" style="display:none;background:var(--cf-surface-container);border-radius:12px;white-space:pre-wrap;font-size:0.875rem;line-height:1.8;"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+function aiPost(url,data,resultId,btn){
+  btn.disabled=true;const orig=btn.innerHTML;btn.innerHTML='<span class="material-symbols-outlined me-1" style="font-size:18px;">hourglass_top</span> Working...';
+  const el=document.getElementById(resultId);
+  fetch(url,{method:'POST',headers:{'Content-Type':'application/json','X-CSRFToken':'{{ csrf_token }}'},body:JSON.stringify(data)})
+  .then(r=>r.json()).then(d=>{el.style.display='block';el.textContent=d.suggestions||d.estimate||d.error||'No response.';})
+  .catch(()=>{el.style.display='block';el.textContent='AI service unavailable.';})
+  .finally(()=>{btn.disabled=false;btn.innerHTML=orig;});
+}
+function smartSchedule(){aiPost('/ai/smart-schedule/',{name:document.getElementById('sched-name').value,category:document.getElementById('sched-category').value,duration:document.getElementById('sched-duration').value},'sched-result',event.target);}
+function estimateBudget(){aiPost('/ai/estimate-budget/',{name:document.getElementById('budget-name').value,category:document.getElementById('budget-category').value,attendees:parseInt(document.getElementById('budget-attendees').value)},'budget-result',event.target);}
+</script>
+{% endblock %}

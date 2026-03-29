@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}{% if editing %}Edit{% else %}Add{% endif %} Expense{% endblock %}
+{% block content %}
+<div class="cf-page-header"><div><span class="cf-label">{{ event.name }}</span><h2>{% if editing %}Edit{% else %}Add{% endif %} Budget Item</h2></div>
+  <a href="{% url 'budget_detail' event.id %}" class="btn btn-cf-secondary"><span class="material-symbols-outlined me-1" style="font-size:18px;">arrow_back</span> Back</a>
+</div>
+<div class="row"><div class="col-lg-6"><div class="cf-card p-4">
+  <form method="post" novalidate>{% csrf_token %}
+    <div class="mb-3"><label class="cf-info-label mb-2">Category</label>{{ form.category }}</div>
+    <div class="mb-3"><label class="cf-info-label mb-2">Description</label>{{ form.description }}</div>
+    <div class="row mb-3"><div class="col-6"><label class="cf-info-label mb-2">Amount (₹)</label>{{ form.amount }}</div><div class="col-6"><label class="cf-info-label mb-2">Status</label>{{ form.status }}</div></div>
+    <button type="submit" class="btn btn-cf-primary"><span class="material-symbols-outlined me-1" style="font-size:18px;">save</span> Save</button>
+  </form>
+</div></div></div>
+{% endblock %}

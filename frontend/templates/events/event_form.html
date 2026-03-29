@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="cf-page-header">
+  <div>
+    <span class="cf-label">Event Management</span>
+    <h2>{{ title }}</h2>
+  </div>
+  <a href="{% url 'event_list' %}" class="btn btn-cf-secondary">
+    <span class="material-symbols-outlined me-1" style="font-size:18px;">arrow_back</span> Back
+  </a>
+</div>
+
+<div class="row">
+  <div class="col-lg-8">
+    <div class="cf-card p-4">
+      {% if form.errors %}
+      <div class="alert alert-danger mb-3"><small>{% for field in form %}{% for error in field.errors %}{{ error }}<br/>{% endfor %}{% endfor %}{% for error in form.non_field_errors %}{{ error }}<br/>{% endfor %}</small></div>
+      {% endif %}
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row mb-3">
+          <div class="col-md-8">
+            <label class="cf-info-label mb-2">Event Name</label>
+            {{ form.name }}
+          </div>
+          <div class="col-md-4">
+            <label class="cf-info-label mb-2">Category</label>
+            {{ form.category }}
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="cf-info-label mb-2">Description</label>
+          {{ form.description }}
+          <button type="button" class="btn btn-sm btn-cf-secondary mt-2" id="ai-generate-btn" onclick="generateDescription()">
+            <span class="material-symbols-outlined me-1" style="font-size:16px;">auto_awesome</span> AI Generate
+          </button>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="cf-info-label mb-2">Date</label>
+            {{ form.date }}
+          </div>
+          <div class="col-md-4">
+            <label class="cf-info-label mb-2">Start Time</label>
+            {{ form.start_time }}
+          </div>
+          <div class="col-md-4">
+            <label class="cf-info-label mb-2">End Time</label>
+            {{ form.end_time }}
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="cf-info-label mb-2">Venue</label>
+            {{ form.venue }}
+          </div>
+          <div class="col-md-6">
+            <label class="cf-info-label mb-2">Status</label>
+            {{ form.status }}
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="cf-info-label mb-2">Expected Attendees</label>
+            {{ form.expected_attendees }}
+          </div>
+          <div class="col-md-6">
+            <label class="cf-info-label mb-2">Estimated Budget (₹)</label>
+            {{ form.estimated_budget }}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-cf-primary">
+          <span class="material-symbols-outlined me-1" style="font-size:18px;">save</span> Save Event
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+function generateDescription() {
+  const name = document.querySelector('[name="name"]').value;
+  const category = document.querySelector('[name="category"]').value;
+  const btn = document.getElementById('ai-generate-btn');
+  if (!name) { alert('Enter an event name first.'); return; }
+  btn.disabled = true;
+  btn.innerHTML = '<span class="material-symbols-outlined me-1" style="font-size:16px;">hourglass_top</span> Generating...';
+  fetch('/ai/generate-description/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'},
+    body: JSON.stringify({name: name, category: category})
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.description) document.getElementById('event-description').value = data.description;
+    else alert(data.error || 'AI generation failed.');
+  })
+  .catch(() => alert('AI service unavailable.'))
+  .finally(() => { btn.disabled = false; btn.innerHTML = '<span class="material-symbols-outlined me-1" style="font-size:16px;">auto_awesome</span> AI Generate'; });
+}
+</script>
+{% endblock %}

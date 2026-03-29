@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Delete {{ event.name }}{% endblock %}
+{% block content %}
+<div class="cf-page-header"><div><span class="cf-label">Confirm Deletion</span><h2>Delete Event</h2></div></div>
+<div class="row"><div class="col-lg-6">
+<div class="cf-card p-4">
+  <p>Are you sure you want to delete <strong>{{ event.name }}</strong>? This action cannot be undone.</p>
+  <form method="post">{% csrf_token %}
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-cf-primary" style="background:var(--cf-error);">
+        <span class="material-symbols-outlined me-1" style="font-size:18px;">delete_forever</span> Delete
+      </button>
+      <a href="{% url 'event_detail' event.id %}" class="btn btn-cf-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+</div></div>
+{% endblock %}

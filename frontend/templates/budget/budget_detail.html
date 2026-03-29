@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Budget — {{ event.name }}{% endblock %}
+{% block content %}
+<div class="cf-page-header">
+  <div><span class="cf-label">{{ event.name }}</span><h2>Budget Detail</h2></div>
+  <div class="d-flex gap-2">
+    {% if request.user.userprofile.role != 'student' %}
+    <a href="{% url 'budget_create' event.id %}" class="btn btn-cf-primary"><span class="material-symbols-outlined me-1" style="font-size:18px;">add</span> Add Expense</a>
+    {% endif %}
+    <a href="{% url 'budget_overview' %}" class="btn btn-cf-secondary"><span class="material-symbols-outlined me-1" style="font-size:18px;">arrow_back</span> Back</a>
+  </div>
+</div>
+<div class="row g-4 mb-4">
+  <div class="col-md-4"><div class="cf-summary-card"><p class="cf-card-label">Estimated</p><h3 class="cf-card-value">₹{{ event.estimated_budget|floatformat:0 }}</h3></div></div>
+  <div class="col-md-4"><div class="cf-summary-card"><p class="cf-card-label">Spent</p><h3 class="cf-card-value" style="color:{% if event.is_overspent %}var(--cf-error){% else %}var(--cf-tertiary){% endif %};">₹{{ event.total_spent|floatformat:0 }}</h3></div></div>
+  <div class="col-md-4"><div class="cf-summary-card"><p class="cf-card-label">Remaining</p><h3 class="cf-card-value">₹{{ event.remaining_budget|floatformat:0 }}</h3></div></div>
+</div>
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="cf-card p-1">
+      <table class="table cf-table mb-0">
+        <thead><tr><th>Description</th><th>Category</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td style="font-weight:600;">{{ item.description }}</td>
+            <td><span class="cf-badge cf-badge-faculty">{{ item.get_category_display }}</span></td>
+            <td style="font-weight:600;">₹{{ item.amount|floatformat:0 }}</td>
+            <td>{{ item.get_status_display }}</td>
+            <td class="d-flex gap-1">
+              <a href="{% url 'budget_edit' item.id %}" class="btn btn-sm btn-cf-secondary"><span class="material-symbols-outlined" style="font-size:16px;">edit</span></a>
+              <a href="{% url 'budget_delete' item.id %}" class="btn btn-sm btn-cf-secondary"><span class="material-symbols-outlined" style="font-size:16px;color:var(--cf-error);">delete</span></a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5" class="text-center py-4" style="color:var(--cf-outline);">No expenses recorded yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="cf-card p-4">
+      <h5 class="headline" style="font-size:0.9rem;margin-bottom:1rem;">By Category</h5>
+      {% for cat, amt in by_category.items %}
+      <div class="cf-info-row mb-2"><span>{{ cat }}</span><span style="font-weight:700;">₹{{ amt|floatformat:0 }}</span></div>
+      {% empty %}
+      <p class="text-center" style="color:var(--cf-outline);font-size:0.85rem;">No data yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

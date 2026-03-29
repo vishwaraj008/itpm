@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Risk Register{% endblock %}
+{% block content %}
+<div class="cf-page-header"><div><span class="cf-label">Risk Management</span><h2>Risk Register</h2></div></div>
+<div class="row g-4 mb-4">
+  <div class="col-md-6"><div class="cf-summary-card"><p class="cf-card-label">Open Risks</p><h3 class="cf-card-value" style="color:var(--cf-error);">{{ open_count }}</h3></div></div>
+  <div class="col-md-6"><div class="cf-summary-card"><p class="cf-card-label">Critical & Open</p><h3 class="cf-card-value" style="color:var(--cf-error);">{{ critical_count }}</h3></div></div>
+</div>
+<div class="cf-card p-3 mb-4">
+  <form method="get" class="row g-3 align-items-end">
+    <div class="col-md-3"><label class="cf-info-label mb-1">Status</label><select name="status" class="form-select cf-form-select"><option value="">All</option>{% for val, label in status_choices %}<option value="{{ val }}" {% if current_status == val %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+    <div class="col-md-3"><label class="cf-info-label mb-1">Severity</label><select name="severity" class="form-select cf-form-select"><option value="">All</option>{% for val, label in severity_choices %}<option value="{{ val }}" {% if current_severity == val %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+    <div class="col-md-2"><button type="submit" class="btn btn-cf-secondary w-100"><span class="material-symbols-outlined me-1" style="font-size:18px;">filter_list</span> Filter</button></div>
+  </form>
+</div>
+<div class="cf-card p-1">
+  <table class="table cf-table mb-0">
+    <thead><tr><th>Risk</th><th>Event</th><th>Severity</th><th>Status</th><th>Owner</th><th></th></tr></thead>
+    <tbody>
+      {% for risk in risks %}
+      <tr>
+        <td style="font-weight:600;">{{ risk.title }}</td>
+        <td><a href="{% url 'event_detail' risk.event.id %}" style="text-decoration:none;color:var(--cf-primary);">{{ risk.event.name }}</a></td>
+        <td><span class="cf-badge" style="background:{{ risk.severity_color }}22;color:{{ risk.severity_color }};border:1px solid {{ risk.severity_color }}44;">{{ risk.get_severity_display }}</span></td>
+        <td>{{ risk.get_status_display }}</td>
+        <td style="font-size:0.85rem;">{{ risk.owner.first_name|default:"—" }}</td>
+        <td class="d-flex gap-1">
+          <a href="{% url 'risk_edit' risk.id %}" class="btn btn-sm btn-cf-secondary"><span class="material-symbols-outlined" style="font-size:16px;">edit</span></a>
+          <a href="{% url 'risk_delete' risk.id %}" class="btn btn-sm btn-cf-secondary"><span class="material-symbols-outlined" style="font-size:16px;color:var(--cf-error);">delete</span></a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" class="text-center py-5" style="color:var(--cf-outline);">No risks recorded.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
