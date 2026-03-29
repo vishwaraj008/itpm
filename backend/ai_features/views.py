@@ -6,18 +6,39 @@ from django.conf import settings
 from accounts.decorators import faculty_or_admin_required
 import json
 
+import requests
 
 def _get_gemini_response(prompt):
-    """Call Gemini API with rate-limit handling."""
+    """Call Gemini API via direct REST request with timeout handling."""
     try:
-        import google.generativeai as genai
         api_key = settings.GEMINI_API_KEY
         if not api_key:
             return None, "Gemini API key not configured. Set GEMINI_API_KEY in .env"
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        response = model.generate_content(prompt)
-        return response.text, None
+        
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+        headers = {'Content-Type': 'application/json'}
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}]
+        }
+        
+        # 15 second timeout to prevent hanging the Django worker
+        response = requests.post(url, headers=headers, json=payload, timeout=15)
+        
+        if response.status_code == 200:
+            data = response.json()
+            try:
+                # Extract the text from the response structure
+                text = data['candidates'][0]['content']['parts'][0]['text']
+                return text, None
+            except (KeyError, IndexError):
+                return None, "Unexpected response format from AI service."
+        else:
+            return None, f"AI service error ({response.status_code}): {response.text}"
+            
+    except requests.exceptions.Timeout:
+        return None, "AI service timed out. Please try again."
+    except requests.exceptions.RequestException as e:
+        return None, f"Network error connecting to AI service: {str(e)}"
     except Exception as e:
         return None, f"AI service error: {str(e)}"
 

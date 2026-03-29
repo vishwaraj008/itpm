@@ -10,7 +10,7 @@ from accounts.decorators import faculty_or_admin_required
 
 @login_required
 def budget_overview(request):
-    events = Event.objects.annotate(total_spent=Sum('budget_items__amount')).order_by('-date')
+    events = Event.objects.annotate(spent_total=Sum('budget_items__amount')).order_by('-date')
     total_estimated = events.aggregate(total=Sum('estimated_budget'))['total'] or 0
     total_spent = BudgetItem.objects.aggregate(total=Sum('amount'))['total'] or 0
     context = {

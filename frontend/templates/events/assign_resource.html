@@ -7,7 +7,14 @@
 <div class="row"><div class="col-lg-6"><div class="cf-card p-4">
   {% if form.errors %}<div class="alert alert-danger mb-3"><small>{% for field in form %}{% for error in field.errors %}{{ error }}<br/>{% endfor %}{% endfor %}</small></div>{% endif %}
   <form method="post" novalidate>{% csrf_token %}
-    <div class="mb-3"><label class="cf-info-label mb-2">Resource</label>{{ form.resource }}</div>
+    <div class="mb-3">
+      <div class="d-flex justify-content-between align-items-end mb-2">
+        <label class="cf-info-label mb-0">Resource</label>
+        <a href="{% url 'resource_list' %}" style="font-size:0.8rem;text-decoration:none;color:var(--cf-primary);">Manage Resources →</a>
+      </div>
+      {{ form.resource }}
+      <div class="mt-2"><small style="color:var(--cf-outline);">If the list is empty, you need to <a href="{% url 'resource_create' %}" style="color:var(--cf-primary);font-weight:600;">create a resource</a> first.</small></div>
+    </div>
     <div class="row mb-3"><div class="col-6"><label class="cf-info-label mb-2">Role</label>{{ form.role }}</div><div class="col-6"><label class="cf-info-label mb-2">Quantity</label>{{ form.quantity }}</div></div>
     <button type="submit" class="btn btn-cf-primary"><span class="material-symbols-outlined me-1" style="font-size:18px;">link</span> Assign</button>
   </form>

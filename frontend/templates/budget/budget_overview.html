@@ -17,8 +17,8 @@
       <tr>
         <td style="font-weight:600;"><a href="{% url 'budget_detail' event.id %}" style="text-decoration:none;color:var(--cf-on-surface);">{{ event.name }}</a></td>
         <td>₹{{ event.estimated_budget|floatformat:0 }}</td>
-        <td style="font-weight:600;color:{% if event.total_spent and event.total_spent > event.estimated_budget %}var(--cf-error){% else %}var(--cf-tertiary){% endif %};">₹{{ event.total_spent|floatformat:0|default:"0" }}</td>
-        <td>{% if event.total_spent and event.total_spent > event.estimated_budget %}<span class="cf-badge" style="background:#fce8ec;color:var(--cf-error);">Over Budget</span>{% else %}<span class="cf-badge cf-badge-student">On Track</span>{% endif %}</td>
+        <td style="font-weight:600;color:{% if event.spent_total and event.spent_total > event.estimated_budget %}var(--cf-error){% else %}var(--cf-tertiary){% endif %};">₹{{ event.spent_total|floatformat:0|default:"0" }}</td>
+        <td>{% if event.spent_total and event.spent_total > event.estimated_budget %}<span class="cf-badge" style="background:#fce8ec;color:var(--cf-error);">Over Budget</span>{% else %}<span class="cf-badge cf-badge-student">On Track</span>{% endif %}</td>
         <td><a href="{% url 'budget_detail' event.id %}" class="btn btn-sm btn-cf-secondary"><span class="material-symbols-outlined" style="font-size:16px;">visibility</span></a></td>
       </tr>
       {% empty %}

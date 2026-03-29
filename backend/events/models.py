@@ -61,6 +61,7 @@ class Resource(models.Model):
     TYPE_CHOICES = [
         ('venue', 'Venue'),
         ('equipment', 'Equipment'),
+        ('volunteer', 'Volunteer'),
     ]
 
     name = models.CharField(max_length=200)
