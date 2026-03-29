@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="cf-page-header">
+  <div>
+    <span class="cf-label">Welcome back, {{ request.user.first_name }}</span>
+    <h2>Dashboard</h2>
+  </div>
+  <div class="d-flex gap-3">
+    <button class="btn btn-cf-secondary">
+      <span class="material-symbols-outlined me-1" style="font-size:18px;">download</span>
+      Export PDF
+    </button>
+  </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row g-4 mb-4">
+  <div class="col-lg-3 col-md-6">
+    <div class="cf-summary-card">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <p class="cf-card-label">Total Events</p>
+          <h3 class="cf-card-value">0</h3>
+        </div>
+        <div style="width:44px;height:44px;background:var(--cf-primary-container);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="color:var(--cf-primary);font-variation-settings:'FILL' 1;">event</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="cf-summary-card">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <p class="cf-card-label">Upcoming</p>
+          <h3 class="cf-card-value">0</h3>
+        </div>
+        <div style="width:44px;height:44px;background:var(--cf-secondary-container);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="color:var(--cf-secondary);font-variation-settings:'FILL' 1;">schedule</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="cf-summary-card">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <p class="cf-card-label">Budget Used</p>
+          <h3 class="cf-card-value">₹0</h3>
+        </div>
+        <div style="width:44px;height:44px;background:#e1f6ee;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="color:var(--cf-tertiary);font-variation-settings:'FILL' 1;">payments</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6">
+    <div class="cf-summary-card">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <p class="cf-card-label">Open Risks</p>
+          <h3 class="cf-card-value">0</h3>
+        </div>
+        <div style="width:44px;height:44px;background:#fce8ec;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+          <span class="material-symbols-outlined" style="color:var(--cf-error);font-variation-settings:'FILL' 1;">warning</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Charts Placeholder -->
+<div class="row g-4 mb-4">
+  <div class="col-lg-6">
+    <div class="cf-card p-4">
+      <h3 class="headline" style="font-size:1rem;margin-bottom:1rem;">Event Status Distribution</h3>
+      <div style="height:280px;display:flex;align-items:center;justify-content:center;color:var(--cf-outline);">
+        <div class="text-center">
+          <span class="material-symbols-outlined" style="font-size:48px;opacity:0.3;">pie_chart</span>
+          <p class="mt-2 mb-0" style="font-size:0.875rem;">Charts will appear when events are added</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="cf-card p-4">
+      <h3 class="headline" style="font-size:1rem;margin-bottom:1rem;">Budget Overview</h3>
+      <div style="height:280px;display:flex;align-items:center;justify-content:center;color:var(--cf-outline);">
+        <div class="text-center">
+          <span class="material-symbols-outlined" style="font-size:48px;opacity:0.3;">bar_chart</span>
+          <p class="mt-2 mb-0" style="font-size:0.875rem;">Budget data will populate with events</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Events Placeholder -->
+<div class="cf-card p-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="headline" style="font-size:1rem;margin:0;">Recent Events</h3>
+    <a href="#" style="color:var(--cf-primary);font-size:0.8rem;font-weight:700;text-decoration:none;">View All →</a>
+  </div>
+  <div style="padding:3rem 0;text-align:center;color:var(--cf-outline);">
+    <span class="material-symbols-outlined" style="font-size:48px;opacity:0.3;">event_note</span>
+    <p class="mt-2 mb-0" style="font-size:0.875rem;">No events yet. Create your first event to get started!</p>
+  </div>
+</div>
+{% endblock %}

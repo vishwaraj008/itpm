@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Django
+*.sqlite3
+db.sqlite3
+backend/staticfiles/
+backend/media/
+*.log
+
+# Environment
+.env
+backend/.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# GSD Planning (local only)
+.planning/
+
+# Node (if any)
+node_modules/
+
+# OS
+Thumbs.db

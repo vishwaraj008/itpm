@@ -1,0 +1,505 @@
+/* ==========================================================
+   CampusFlow Design System — Bootstrap 5 Custom Theme
+   Adapted from Stitch CampusFlow Screens
+   ========================================================== */
+
+/* ---------- Color Tokens ---------- */
+:root {
+  --cf-primary: #5257a8;
+  --cf-primary-dim: #454b9b;
+  --cf-primary-container: #b8bcff;
+  --cf-on-primary: #fbf7ff;
+  --cf-secondary: #4a4bd7;
+  --cf-secondary-container: #e1e0ff;
+  --cf-on-secondary-container: #3b3cc9;
+  --cf-tertiary: #006d4a;
+  --cf-tertiary-container: #69f6b8;
+  --cf-error: #ac3149;
+  --cf-error-container: #f76a80;
+  --cf-surface: #f7f9fb;
+  --cf-surface-container: #eaeef1;
+  --cf-surface-container-low: #f1f4f6;
+  --cf-surface-container-high: #e3e9ec;
+  --cf-surface-container-highest: #dde3e7;
+  --cf-surface-bright: #f7f9fb;
+  --cf-on-surface: #2d3337;
+  --cf-on-surface-variant: #596063;
+  --cf-outline: #757c7f;
+  --cf-outline-variant: #acb3b7;
+  --cf-background: #f7f9fb;
+
+  /* Bootstrap overrides */
+  --bs-primary: #5257a8;
+  --bs-primary-rgb: 82, 87, 168;
+  --bs-secondary: #4a4bd7;
+  --bs-secondary-rgb: 74, 75, 215;
+  --bs-success: #006d4a;
+  --bs-success-rgb: 0, 109, 74;
+  --bs-danger: #ac3149;
+  --bs-danger-rgb: 172, 49, 73;
+  --bs-body-bg: #f7f9fb;
+  --bs-body-color: #2d3337;
+}
+
+/* ---------- Typography ---------- */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--cf-background);
+  color: var(--cf-on-surface);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6,
+.headline {
+  font-family: 'Manrope', 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Sidebar ---------- */
+.cf-sidebar {
+  width: 280px;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  background: #f8fafc;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.cf-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  margin-bottom: 2rem;
+}
+
+.cf-sidebar-brand-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--cf-primary);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(82, 87, 168, 0.2);
+}
+
+.cf-sidebar-brand h1 {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #4f46e5;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.cf-sidebar-brand p {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.cf-sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cf-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: #64748b;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.cf-nav-link:hover {
+  background: rgba(226, 232, 240, 0.5);
+  color: var(--cf-on-surface);
+  transform: translateX(4px);
+}
+
+.cf-nav-link.active {
+  background: #eef2ff;
+  color: #4338ca;
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.1);
+}
+
+.cf-nav-link.active .material-symbols-outlined {
+  font-variation-settings: 'FILL' 1;
+}
+
+.cf-sidebar-footer {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cf-nav-link.danger {
+  color: var(--cf-error);
+}
+
+.cf-nav-link.danger:hover {
+  background: rgba(172, 49, 73, 0.05);
+}
+
+/* ---------- Main Content ---------- */
+.cf-main {
+  margin-left: 280px;
+  max-width: 1440px;
+  padding: 2rem 3rem;
+  min-height: 100vh;
+}
+
+/* ---------- Page Header ---------- */
+.cf-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+}
+
+.cf-page-header .cf-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cf-primary);
+  margin-bottom: 0.5rem;
+}
+
+.cf-page-header h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+/* ---------- Cards ---------- */
+.cf-card {
+  background: white;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.cf-glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border: none;
+  border-radius: 16px;
+}
+
+/* ---------- Summary Cards ---------- */
+.cf-summary-card {
+  background: white;
+  border: none;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.cf-summary-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.cf-summary-card .cf-card-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--cf-on-surface-variant);
+  margin-bottom: 0.5rem;
+}
+
+.cf-summary-card .cf-card-value {
+  font-family: 'Manrope', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--cf-on-surface);
+}
+
+/* ---------- Buttons ---------- */
+.btn-cf-primary {
+  background: linear-gradient(135deg, var(--cf-primary), var(--cf-secondary));
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-weight: 700;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(82, 87, 168, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-cf-primary:hover {
+  color: white;
+  box-shadow: 0 6px 20px rgba(82, 87, 168, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-cf-primary:active {
+  transform: scale(0.95);
+}
+
+.btn-cf-secondary {
+  background: var(--cf-surface-container-low);
+  color: var(--cf-on-surface);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.2s ease;
+}
+
+.btn-cf-secondary:hover {
+  background: var(--cf-surface-container-high);
+}
+
+/* ---------- Role Badges ---------- */
+.cf-badge {
+  padding: 0.25rem 0.75rem;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 50px;
+  display: inline-block;
+}
+
+.cf-badge-admin {
+  background: var(--cf-primary);
+  color: var(--cf-on-primary);
+}
+
+.cf-badge-faculty {
+  background: var(--cf-secondary-container);
+  color: var(--cf-on-secondary-container);
+}
+
+.cf-badge-student {
+  background: var(--cf-tertiary-container);
+  color: #005a3c;
+}
+
+/* ---------- Forms ---------- */
+.cf-form-control {
+  border: 1px solid var(--cf-outline-variant);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.cf-form-control:focus {
+  border-color: var(--cf-primary);
+  box-shadow: 0 0 0 3px rgba(82, 87, 168, 0.1);
+}
+
+.cf-form-select {
+  border: 1px solid var(--cf-outline-variant);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+}
+
+/* ---------- Auth Pages ---------- */
+.cf-auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef2ff 0%, #f7f9fb 50%, #e1e0ff 100%);
+}
+
+.cf-auth-card {
+  background: white;
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 8px 40px rgba(82, 87, 168, 0.08);
+  width: 100%;
+  max-width: 440px;
+}
+
+.cf-auth-brand {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.cf-auth-brand-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--cf-primary), var(--cf-secondary));
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 8px 24px rgba(82, 87, 168, 0.25);
+  margin-bottom: 1rem;
+}
+
+.cf-auth-brand h1 {
+  font-size: 1.75rem;
+  color: var(--cf-primary);
+  margin: 0;
+}
+
+.cf-auth-brand p {
+  font-size: 0.875rem;
+  color: var(--cf-on-surface-variant);
+  margin: 0.25rem 0 0;
+}
+
+/* ---------- Tables ---------- */
+.cf-table {
+  border-collapse: separate;
+  border-spacing: 0 4px;
+}
+
+.cf-table thead th {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--cf-outline);
+  border: none;
+  padding: 0.75rem 1rem;
+}
+
+.cf-table tbody tr {
+  background: var(--cf-surface-container-low);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.cf-table tbody tr:hover {
+  background: #eef2ff;
+}
+
+.cf-table tbody td {
+  border: none;
+  padding: 1rem;
+  vertical-align: middle;
+}
+
+.cf-table tbody td:first-child {
+  border-radius: 12px 0 0 12px;
+}
+
+.cf-table tbody td:last-child {
+  border-radius: 0 12px 12px 0;
+}
+
+/* ---------- Material Symbols ---------- */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+/* ---------- Info Rows ---------- */
+.cf-info-row {
+  padding: 1rem;
+  background: var(--cf-surface-container);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.cf-info-row:hover {
+  background: var(--cf-surface-container-high);
+}
+
+.cf-info-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--cf-on-surface-variant);
+}
+
+/* ---------- Alerts ---------- */
+.alert {
+  border: none;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991.98px) {
+  .cf-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .cf-sidebar.show {
+    transform: translateX(0);
+  }
+
+  .cf-main {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+}
+
+/* ---------- Mobile Toggle ---------- */
+.cf-mobile-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1050;
+  width: 44px;
+  height: 44px;
+  background: white;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 991.98px) {
+  .cf-mobile-toggle {
+    display: flex;
+  }
+}
+
+/* ---------- Backdrop ---------- */
+.cf-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1035;
+}
+
+.cf-backdrop.show {
+  display: block;
+}

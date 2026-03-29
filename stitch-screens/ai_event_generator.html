@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#e1e0ff",
+              "surface-tint": "#5257a8",
+              "primary-fixed-dim": "#a7acff",
+              "tertiary": "#006d4a",
+              "tertiary-container": "#69f6b8",
+              "secondary-dim": "#3d3dcb",
+              "on-tertiary-container": "#005a3c",
+              "surface-dim": "#d3dbdf",
+              "surface-container-high": "#e3e9ec",
+              "on-secondary-fixed": "#2622b7",
+              "secondary": "#4a4bd7",
+              "inverse-surface": "#0b0f10",
+              "on-tertiary-fixed-variant": "#006544",
+              "error-container": "#f76a80",
+              "primary": "#5257a8",
+              "surface-bright": "#f7f9fb",
+              "inverse-on-surface": "#9a9d9f",
+              "on-primary": "#fbf7ff",
+              "surface-container-low": "#f1f4f6",
+              "on-secondary-container": "#3b3cc9",
+              "inverse-primary": "#999ef5",
+              "tertiary-fixed": "#69f6b8",
+              "background": "#f7f9fb",
+              "on-primary-fixed-variant": "#373c8c",
+              "secondary-fixed": "#e1e0ff",
+              "outline": "#757c7f",
+              "surface-container-lowest": "#ffffff",
+              "primary-container": "#b8bcff",
+              "surface-container": "#eaeef1",
+              "primary-fixed": "#b8bcff",
+              "surface-container-highest": "#dde3e7",
+              "secondary-fixed-dim": "#d1d0ff",
+              "on-secondary": "#fbf7ff",
+              "outline-variant": "#acb3b7",
+              "on-primary-container": "#2e3383",
+              "on-surface-variant": "#596063",
+              "on-secondary-fixed-variant": "#4647d3",
+              "surface-variant": "#dde3e7",
+              "on-tertiary": "#e6ffee",
+              "error-dim": "#770326",
+              "on-background": "#2d3337",
+              "surface": "#f7f9fb",
+              "on-surface": "#2d3337",
+              "tertiary-dim": "#005f40",
+              "on-primary-fixed": "#171b6e",
+              "error": "#ac3149",
+              "on-tertiary-fixed": "#00452d",
+              "primary-dim": "#454b9b",
+              "tertiary-fixed-dim": "#58e7ab",
+              "on-error": "#fff7f7",
+              "on-error-container": "#68001f"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none h-16">
+<div class="flex items-center justify-between px-8 h-full w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white font-headline">CampusFlow</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-500 font-manrope font-semibold text-sm hover:text-slate-900 transition-colors" href="#">Dashboard</a>
+<a class="text-indigo-600 font-bold font-manrope text-sm" href="#">AI Generator</a>
+<a class="text-slate-500 font-manrope font-semibold text-sm hover:text-slate-900 transition-colors" href="#">Events</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-50 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined text-slate-600">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-50 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined text-slate-600">help</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="close-up portrait of a professional woman with a friendly smile, soft natural lighting, blurred modern office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpJOMgA1ntn0-U3oIv3hp2PmHqxT2X5BHbbCYWebANKsyqVb8FU6m0MmYaGTKX_-YaOTuCU9BQnxyTdlLnzD8Ds23kB29wKazVZ0KM7heuGxPqCYlVcw28OfPz4pQUb86vLhV2Ohy16q85rApekus_1O8p_mdER57CkYE6GVoyHQ5hsVMyKvD9s8gi_U04IWonZRcB_5MIC4oaRvOf3W2jJ9wxJasL2PLL4emhu3HT55A29KOhRl-JSFX68v04rkbeAY_VCsug--FQ"/>
+</div>
+</div>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800 h-[1px] w-full absolute bottom-0"></div>
+</header>
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="hidden lg:flex fixed left-0 top-0 h-full w-64 z-50 flex-col p-6 space-y-2 bg-slate-50 dark:bg-slate-950">
+<div class="mb-10 flex flex-col gap-1">
+<span class="text-lg font-black text-indigo-700 dark:text-indigo-300 font-headline">University Portal</span>
+<span class="text-xs text-on-surface-variant font-medium tracking-wide">Academic Management</span>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-200/50 rounded-xl transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-manrope font-medium text-[0.875rem]">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-200/50 rounded-xl transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-manrope font-medium text-[0.875rem]">Events</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-200/50 rounded-xl transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-manrope font-medium text-[0.875rem]">Budget</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-200/50 rounded-xl transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">warning</span>
+<span class="font-manrope font-medium text-[0.875rem]">Risk Analysis</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-200/50 rounded-xl transition-all hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-manrope font-medium text-[0.875rem]">Analytics</span>
+</a>
+<a class="flex items-center gap-3 bg-indigo-100/40 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-xl px-4 py-3 backdrop-blur-md" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-manrope font-medium text-[0.875rem]">AI Generator</span>
+</a>
+</nav>
+<div class="pt-6 mt-auto border-t border-surface-container">
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-200/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-manrope font-medium text-[0.875rem]">Settings</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-200/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-manrope font-medium text-[0.875rem]">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="lg:ml-64 pt-24 px-6 pb-12 min-h-screen">
+<div class="max-w-4xl mx-auto space-y-12">
+<!-- Header Section -->
+<section class="space-y-2">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-wider uppercase">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">colors_spark</span>
+                    Next-Gen Creation
+                </div>
+<h1 class="text-4xl md:text-5xl font-extrabold font-headline tracking-tight text-on-surface">AI Event Generator</h1>
+<p class="text-lg text-on-surface-variant max-w-2xl leading-relaxed">Transform your event concept into a compelling professional narrative in seconds using advanced language modeling.</p>
+</section>
+<!-- Input Section -->
+<section class="relative">
+<div class="absolute -top-12 -right-12 w-64 h-64 bg-primary/10 blur-[100px] rounded-full -z-10"></div>
+<div class="absolute -bottom-12 -left-12 w-48 h-48 bg-tertiary/10 blur-[80px] rounded-full -z-10"></div>
+<div class="surface-container-lowest rounded-xl p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-outline-variant/10">
+<div class="flex flex-col md:flex-row gap-6 items-end">
+<div class="flex-1 w-full space-y-3">
+<label class="block text-sm font-bold font-headline text-on-surface-variant px-1" for="event-name">Event Name</label>
+<input class="w-full h-16 px-6 rounded-xl bg-surface-container-low border-none focus:ring-2 focus:ring-primary/40 text-lg font-medium placeholder:text-outline/60 transition-all" id="event-name" placeholder="e.g. Annual Tech Symposium 2024" type="text"/>
+</div>
+<button class="h-16 px-8 rounded-xl bg-gradient-to-br from-primary to-secondary text-on-primary font-bold font-headline flex items-center justify-center gap-3 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all active:scale-95 group shrink-0 w-full md:w-auto">
+<span>Generate Description</span>
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">auto_awesome</span>
+</button>
+</div>
+<div class="mt-6 flex items-center gap-3">
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-bold tracking-widest uppercase border border-outline-variant/5">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+                            Powered by Gemini
+                        </div>
+<span class="text-xs text-outline/60">Takes less than 3 seconds</span>
+</div>
+</div>
+</section>
+<!-- Result Section (Asymmetric / Bento Style) -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+<!-- Main Description Card -->
+<div class="md:col-span-8 group">
+<div class="relative p-1 rounded-xl bg-gradient-to-br from-primary/20 via-transparent to-tertiary/20">
+<div class="surface-container-lowest rounded-lg p-8 space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold font-headline">AI Generated Description</h3>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<span class="text-[10px] font-bold text-tertiary tracking-tighter uppercase">High Quality Draft</span>
+</div>
+</div>
+<div class="space-y-4 text-on-surface-variant leading-relaxed">
+<p class="text-lg font-medium text-on-surface">The Annual Tech Symposium 2024 is the premier gathering for innovators, developers, and visionaries within the university community.</p>
+<p>This year, we dive deep into the intersection of Quantum Computing and Ethical AI. Experience a curated day of keynote addresses from industry pioneers, interactive hands-on workshops, and a networking lounge designed to spark the next big collaboration.</p>
+<p>Join us as we explore the boundaries of what's possible, fostering an environment where academic research meets real-world application. Secure your place at the forefront of the technological evolution.</p>
+</div>
+<div class="pt-6 flex flex-wrap gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-highest hover:bg-surface-container-high text-on-surface font-bold text-sm transition-colors">
+<span class="material-symbols-outlined text-lg">edit</span>
+                                    Edit
+                                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-highest hover:bg-surface-container-high text-on-surface font-bold text-sm transition-colors">
+<span class="material-symbols-outlined text-lg">rebase_edit</span>
+                                    Refine
+                                </button>
+<div class="flex-1"></div>
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary text-on-primary font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    Apply to Event
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Stats / Tips -->
+<div class="md:col-span-4 space-y-6">
+<div class="surface-container rounded-xl p-6 space-y-4">
+<h4 class="text-sm font-bold font-headline uppercase tracking-widest text-outline">Smart Analysis</h4>
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-xs font-medium">Readability Index</span>
+<span class="text-xs font-bold text-tertiary">94%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-variant/30 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[94%] rounded-full"></div>
+</div>
+</div>
+<div class="space-y-3 pt-2">
+<div class="flex items-center justify-between">
+<span class="text-xs font-medium">Engagement Tone</span>
+<span class="text-xs font-bold text-secondary">Professional</span>
+</div>
+<div class="w-full h-1.5 bg-surface-variant/30 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[80%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="surface-container-lowest rounded-xl p-6 border border-outline-variant/10 flex flex-col items-center text-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">lightbulb</span>
+</div>
+<div>
+<p class="text-sm font-bold font-headline mb-1">Pro Tip</p>
+<p class="text-xs text-on-surface-variant leading-relaxed">Add a specific target audience to your event name to get even more tailored results.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Creative Gallery / Previous Generations -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-bold font-headline">Recent Generations</h2>
+<button class="text-sm font-bold text-primary hover:underline transition-all">View History</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- History Item 1 -->
+<div class="surface-container-low p-6 rounded-xl hover:bg-surface-container transition-colors group">
+<div class="flex items-start justify-between mb-4">
+<span class="text-xs font-bold text-outline">2 hours ago</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">open_in_new</span>
+</div>
+<h4 class="font-bold text-on-surface mb-2">Winter Formal 2024</h4>
+<p class="text-xs text-on-surface-variant line-clamp-3">A night of elegance and charm under the starlight. Join us for the annual winter gala...</p>
+</div>
+<!-- History Item 2 -->
+<div class="surface-container-low p-6 rounded-xl hover:bg-surface-container transition-colors group">
+<div class="flex items-start justify-between mb-4">
+<span class="text-xs font-bold text-outline">Yesterday</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">open_in_new</span>
+</div>
+<h4 class="font-bold text-on-surface mb-2">Hack the Campus</h4>
+<p class="text-xs text-on-surface-variant line-clamp-3">48 hours of non-stop coding, caffeine, and creativity. Solve local problems with global tech...</p>
+</div>
+<!-- History Item 3 -->
+<div class="surface-container-low p-6 rounded-xl hover:bg-surface-container transition-colors group">
+<div class="flex items-start justify-between mb-4">
+<span class="text-xs font-bold text-outline">3 days ago</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">open_in_new</span>
+</div>
+<h4 class="font-bold text-on-surface mb-2">Alumni Networking Brunch</h4>
+<p class="text-xs text-on-surface-variant line-clamp-3">Reconnect with fellow graduates and explore mentorship opportunities in a relaxed Sunday setting...</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Nav Bar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-lg px-6 py-3 flex justify-between items-center z-50">
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-indigo-600">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="text-[10px] font-bold">Gen</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-[10px] font-bold">Events</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold">Set</span>
+</button>
+</nav>
+</body></html>

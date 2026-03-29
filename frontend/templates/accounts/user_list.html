@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}User Management{% endblock %}
+
+{% block content %}
+<div class="cf-page-header">
+  <div>
+    <span class="cf-label">System Administration</span>
+    <h2>User Management</h2>
+  </div>
+  <div class="d-flex gap-3">
+    <a href="{% url 'register' %}" class="btn btn-cf-primary">
+      <span class="material-symbols-outlined me-1" style="font-size:18px;">person_add</span>
+      Add User
+    </a>
+  </div>
+</div>
+
+<div class="cf-card p-1">
+  <table class="table cf-table mb-0">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Department</th>
+        <th>Status</th>
+        <th>Joined</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+      <tr>
+        <td>
+          <div class="d-flex align-items-center gap-3">
+            <div style="width:36px;height:36px;border-radius:10px;background:var(--cf-primary-container);display:flex;align-items:center;justify-content:center;">
+              <span class="material-symbols-outlined" style="font-size:18px;color:var(--cf-primary);">person</span>
+            </div>
+            <div>
+              <div style="font-weight:600;">{{ u.first_name }} {{ u.last_name }}</div>
+            </div>
+          </div>
+        </td>
+        <td style="color:var(--cf-on-surface-variant);">{{ u.email }}</td>
+        <td>
+          <span class="cf-badge cf-badge-{{ u.userprofile.role }}">{{ u.userprofile.get_role_display }}</span>
+        </td>
+        <td style="color:var(--cf-on-surface-variant);">{{ u.userprofile.department|default:"—" }}</td>
+        <td>
+          {% if u.is_active %}
+          <span style="color:var(--cf-tertiary);font-weight:600;font-size:0.8rem;">● Active</span>
+          {% else %}
+          <span style="color:var(--cf-error);font-weight:600;font-size:0.8rem;">● Inactive</span>
+          {% endif %}
+        </td>
+        <td style="font-size:0.8rem;color:var(--cf-outline);">{{ u.date_joined|date:"M d, Y" }}</td>
+        <td>
+          <a href="{% url 'user_edit' u.id %}" class="btn btn-sm btn-cf-secondary">
+            <span class="material-symbols-outlined" style="font-size:16px;">edit</span>
+          </a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="7" class="text-center py-5" style="color:var(--cf-outline);">No users found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
