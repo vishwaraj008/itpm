@@ -35,6 +35,11 @@ backend/.env
 # GSD Planning (local only)
 .planning/
 
+# Project docs & reference (local only)
+details/
+stitch-screens/
+GEMINI.md
+
 # Node (if any)
 node_modules/
 
